@@ -1,0 +1,18 @@
+<!-- The header ejs template is included to ensure our CSS and fonts are loaded -->
+<%- include('partials/header') %>
+
+
+    <div id="leaderboard_main_box">
+        <h1>Leaderboard</h1>
+        <a href="/">Back to Home</a>
+        <h2>Top 10 Streaks</h2>
+        <ul>
+            <% leaderboard.forEach((entry) => { %>
+                <li><%= entry.streak %> points - <%= entry.timestamp %></li>
+            <% }) %>
+        </ul>
+    </div>
+
+
+</body>
+</html>

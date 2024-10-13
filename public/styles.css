@@ -46,3 +46,32 @@ body {
 .index_container .navigation__container :last-child {
     margin-right: 0px
 }
+
+
+/* HOME PAGE STYLING */
+
+
+/* QUIZ PAGE STYLING */
+#quiz_main_box {
+    margin: 2.5%;
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+
+/* LEADERBOARD PAGE STYLING */
+#leaderboard_main_box {
+    margin: 2.5%;
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
