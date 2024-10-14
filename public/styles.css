@@ -59,8 +59,35 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    
+    align-items: center;   
+}
+.quiz_question {
+    font-size: 24px;
+    margin: 20px 0;
+}
+.submit_button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+.submit_button:hover {
+    background-color: #45a049; /* Darker green */
+}
+
+
+/* COMPLETION PAGE STYLING */
+#completion_main_box {
+    margin: 2.5%;
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
 }
 
 
@@ -72,6 +99,5 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    
+    align-items: center;   
 }

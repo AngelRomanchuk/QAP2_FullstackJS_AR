@@ -4,13 +4,25 @@
 
     <div id="leaderboard_main_box">
         <h1>Leaderboard</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Strikes</th>
+                    <th>Date and Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% leaderboard.forEach((entry, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= entry.streak %></td>
+                        <td><%= entry.timestamp %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
         <a href="/">Back to Home</a>
-        <h2>Top 10 Streaks</h2>
-        <ul>
-            <% leaderboard.forEach((entry) => { %>
-                <li><%= entry.streak %> points - <%= entry.timestamp %></li>
-            <% }) %>
-        </ul>
     </div>
 
 

@@ -1,25 +1,24 @@
 <!-- The header ejs template is included to ensure our CSS and fonts are loaded -->
 <%- include('partials/header') %>
 
+<div id="quiz_main_box">
+    <h1 class="quiz_heading">Math Quiz</h1>
+    <!-- Link to go back to the home page -->
+    <a href="/">Back to Home</a>
+    <p class="quiz_instruction">Answer the question below:</p>
 
-    <div id="quiz_main_box">
-        <h1 class="quiz_heading">Math Quiz</h1>
-        <!-- Link to go back to the home page -->
-        <a href="/">Back to Home</a>
-        <p class="quiz_heading">Answer the question below:</p>
+    <!-- Display the current question dynamically -->
+    <h2 class="quiz_question"><%= question %></h2> <!-- Include the question variable here -->
 
-        <!-- Display the current question dynamically -->
-        <h2><%= question %></h2> <!-- Include the question variable here -->
+    <form action="/quiz" method="POST">
+        <label for="answer">Your Answer:</label>
+        <input type="text" id="answer" name="answer" required placeholder="Type your answer here">
+        <button type="submit" class="submit_button">Submit</button>
+    </form>
+</div>
 
-        <form action="/quiz" method="POST">
-            <label for="answer">Your Answer:</label>
-            <input type="text" id="answer" name="answer" required>
-            <button type="submit">Submit</button>
-        </form>
+<!-- Optionally, include a script for additional interactivity -->
+<script src="path/to/your/script.js"></script>
 
-    </div>
-
-
-    
 </body>
 </html>
