@@ -1,17 +1,21 @@
-<!-- The header ejs template is included to ensure our CSS and fonts are loaded -->
+<!-- Completion Page -->
 <%- include('partials/header') %>
+
     <div id="completion_main_box">
         <h1>Quiz Completed!</h1>
-        <p>You answered a total of <strong><%= totalCorrect %></strong> questions correctly.</p>
+        <p>You answered a total of <strong><%= total %></strong> questions correctly.</p>
 
         <% if (isBest) { %>
             <h2>Congratulations! This is your best result!</h2>
         <% } else { %>
-            <p>Your best result so far is <strong><%= bestResult %></strong>.</p>
+            <p>Your best result so far is <strong><%= best %></strong>.</p>
         <% } %>
 
-        <a href="/quiz">Try Again</a>
-        <a href="/">Back to Home</a>
+        <div id="completion_links_block">
+            <a class="link space" href="/quiz">Try Again</a>
+            <a class="link" href="/">Back to Home</a>
+        </div>
     </div>
+
 </body>
 </html>

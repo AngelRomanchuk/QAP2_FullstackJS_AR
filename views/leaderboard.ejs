@@ -1,14 +1,15 @@
-<!-- The header ejs template is included to ensure our CSS and fonts are loaded -->
+<!-- Leaderboard Page -->
 <%- include('partials/header') %>
-
 
     <div id="leaderboard_main_box">
         <h1>Leaderboard</h1>
+        <a class="link" href="/">Back to Home</a>
+
         <table>
             <thead>
                 <tr>
                     <th>Rank</th>
-                    <th>Strikes</th>
+                    <th>Strikes</th> <!-- Or "Correct Answers" if you prefer -->
                     <th>Date and Time</th>
                 </tr>
             </thead>
@@ -16,15 +17,13 @@
                 <% leaderboard.forEach((entry, index) => { %>
                     <tr>
                         <td><%= index + 1 %></td>
-                        <td><%= entry.streak %></td>
+                        <td><%= entry.streak %></td> <!-- Ensure this is correct -->
                         <td><%= entry.timestamp %></td>
                     </tr>
                 <% }); %>
             </tbody>
         </table>
-        <a href="/">Back to Home</a>
     </div>
-
 
 </body>
 </html>

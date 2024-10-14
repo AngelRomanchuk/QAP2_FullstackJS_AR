@@ -8,6 +8,24 @@ body {
     color: #F6F6F6;
 }
 
+.link {
+    color: black;
+    text-decoration: none;
+    font-size: 16pt;
+    font-weight: 600;
+    transition: 1s;
+}
+.link:hover {
+    padding: 8px;
+    background-color: black;
+    border-radius: 5px;
+    color: rgba(0,212,255,1);
+    text-decoration: none;
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+
 .main-content {
     display: flex;
     justify-content: center;
@@ -15,12 +33,10 @@ body {
     align-items: center;
     flex-direction: column;
 }
-
 .index_container .navigation__container {
     display: flex;
     flex-direction: row;
 }
-
 .index_container .navigation__container a {
     background-color: #FFFFFF;
     aspect-ratio: 1;
@@ -33,22 +49,16 @@ body {
     margin-right: 20px;
     font-size: 25px;
 }
-
 .index_container .navigation__container a:link {
     color: #5d8efb;
     text-decoration: none;
-}
-  
+} 
 .index_container .navigation__container a:visited {
     text-decoration: none;
 }
-
 .index_container .navigation__container :last-child {
     margin-right: 0px
 }
-
-
-/* HOME PAGE STYLING */
 
 
 /* QUIZ PAGE STYLING */
@@ -65,17 +75,26 @@ body {
     font-size: 24px;
     margin: 20px 0;
 }
+.lable_answer {
+    margin-right: 10px;
+}
+.input_answer {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+}
 .submit_button {
-    background-color: #4CAF50; /* Green */
-    color: white;
+    background-color: rgba(0,212,255,1); /* Green */
+    color: black;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
+    margin-left: 10px;
 }
 .submit_button:hover {
-    background-color: #45a049; /* Darker green */
+    color: rgba(0,212,255,1);
+    background-color: black;
+    margin-left: 10px;
 }
 
 
@@ -89,6 +108,12 @@ body {
     justify-content: center;
     align-items: center;   
 }
+#completion_links_block {
+    display: flex;
+}
+.space {
+    margin-right: 20px;
+}
 
 
 /* LEADERBOARD PAGE STYLING */
@@ -100,4 +125,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;   
+}
+table{
+    margin: 20px;
+}
+td {
+    padding: 10px 40px;
 }

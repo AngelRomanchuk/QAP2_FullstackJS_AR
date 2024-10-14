@@ -4,8 +4,8 @@ const app = express();
 const port = 3000;
 
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: true })); // For parsing form data
-app.use(express.static('public')); // To serve static files (e.g., CSS)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 app.use(session({
     secret: 'your_secret_key',
     resave: false,
@@ -13,61 +13,53 @@ app.use(session({
 }));
 
 let currentQuestion = {};
-let streak = 0;
 let leaderboard = [];
 
-
-// Functions to generate the question and it answer
-function calculateAnswer(num1, num2, operator) {
-    switch (operator) {
-        case '+':
-            return num1 + num2;
-        case '-':
-            return num1 - num2;
-        case '*':
-            return num1 * num2;
-        case '/':
-            return num2 !== 0 ? (num1 / num2) : 'undefined'; // Division by 0 can not be valid
-        default:
-            throw new Error('Invalid operator');
+// Function to calculate the answer based on the operator
+function calculate(num1, num2, op) {
+    switch (op) {
+        case '+': return num1 + num2;
+        case '-': return num1 - num2;
+        case '*': return num1 * num2;
+        case '/': return num2 !== 0 ? (num1 / num2) : 'undefined';
+        default: throw new Error('Invalid operator');
     }
 }
-function generateQuestion() {
-    const operators = ['+', '-', '*', '/'];
-    const operator = operators[Math.floor(Math.random() * operators.length)];
+
+// Function to generate a new question
+function getQuestion() {
+    const ops = ['+', '-', '*', '/'];
+    const op = ops[Math.floor(Math.random() * ops.length)];
     const num1 = Math.floor(Math.random() * 10) + 1;
     const num2 = Math.floor(Math.random() * 10) + 1;
 
-    currentQuestion.question = `${num1} ${operator} ${num2}`;
-    currentQuestion.answer = calculateAnswer(num1, num2, operator);
-}
+    currentQuestion = {
+        question: `${num1} ${op} ${num2}`,
+        answer: calculate(num1, num2, op)
+    };
 
+    return currentQuestion; // Return the generated question
+}
 
 // Home Page
 app.get('/', (req, res) => {
-    res.render('index', { streak: streak > 0 ? streak : 'No streak recorded.' });
+    res.render('index', { streak: req.session.streak || 'No streak recorded.' });
 });
 
 // Quiz Page
 app.get('/quiz', (req, res) => {
-    // Initialize streak in session if it doesn't exist
-    if (!req.session.streak) {
-        req.session.streak = 0;
-    }
-    generateQuestion();
+    req.session.streak = req.session.streak || 0; // Initialize streak if not set
+    getQuestion();
     res.render('quiz', { question: currentQuestion.question, streak: req.session.streak });
 });
 
-// Quiz Completion Page
+// Completion Page
 app.get('/completion', (req, res) => {
-    const totalCorrect = req.session.bestResult;
-    const currentStreak = req.session.streak;
+    const total = parseInt(req.query.total) || 0; // Get total correct from query
+    const best = parseInt(req.query.best) || 0; // Get best result from query
+    const isBest = total > best;
 
-    res.render('completion', {
-        totalCorrect,
-        bestResult: totalCorrect,
-        isBest: currentStreak > totalCorrect // Check if this is the best result
-    });
+    res.render('completion', { total, best, isBest });
 });
 
 // Leaderboards Page
@@ -76,37 +68,39 @@ app.get('/leaderboards', (req, res) => {
     res.render('leaderboard', { leaderboard: sortedLeaderboard.slice(0, 10) });
 });
 
-// Handles quiz submissions
-// This was a hard thing to figure out, so did a lot of
-// research and wrote some coments to know what I am doing
-// Add more stuff while working on a logic of a quiz
+// Handle quiz submissions
 app.post('/quiz', (req, res) => {
     const userAnswer = req.body.answer;
 
     // Check if the user's answer is a valid number
     if (!userAnswer || isNaN(userAnswer)) {
+        req.session.totalQuestions = (req.session.totalQuestions || 0) + 1; // Count this as an attempt
         return res.redirect('/quiz');
     }
 
-    const userAnswerNumber = parseInt(userAnswer);
-    if (userAnswerNumber === currentQuestion.answer) {
-        req.session.streak++;
-        res.redirect('/quiz'); // Continue quiz
-    } else {
-        // Wrong answer, save current streak and show completion page
-        const totalCorrect = req.session.streak;
-        const timestamp = new Date().toLocaleString(); // Record the current date and time
+    const answer = parseInt(userAnswer);
+    req.session.totalQuestions = (req.session.totalQuestions || 0) + 1; 
 
-        leaderboard.push({ streak: totalCorrect, timestamp }); // Add result to leaderboard
-        req.session.bestResult = Math.max(totalCorrect, req.session.bestResult || 0); // Update best result if needed
-        req.session.streak = 0; // Reset streak for next quiz
-        res.redirect('/completion');
+    if (answer === currentQuestion.answer) {
+        req.session.streak++; 
+        res.redirect('/quiz'); // Continue the quiz
+    } else {
+        // Store total correct answers and timestamp before resetting
+        const totalCorrect = req.session.streak; 
+        const timestamp = new Date().toLocaleString(); 
+
+        // Add result to leaderboard
+        leaderboard.push({ streak: totalCorrect, timestamp }); 
+        req.session.best = Math.max(totalCorrect, req.session.best || 0); 
+
+        // Reset for the next quiz
+        req.session.streak = 0; 
+        req.session.totalQuestions = 0; 
+
+        // Pass the values to the completion page
+        res.redirect(`/completion?total=${totalCorrect}&best=${req.session.best}`);
     }
 });
-
-
-
-
 
 // Start the server
 app.listen(port, () => {
