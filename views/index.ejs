@@ -2,6 +2,13 @@
 <%- include('partials/header') %>
 <main class="main-content index_container">
     <h1>Welcome to the Math Competition App</h1>
+    <div>
+        <p>Your latest streak: <strong><%= latest %></strong></p>
+    </div>
+
+    <div>
+        <p>Your best streak: <strong><%= best %></strong></p>
+    </div>
     
     <div class="navigation__container">
         <a href="/leaderboards">

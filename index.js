@@ -14,6 +14,8 @@ app.use(session({
 
 let currentQuestion = {};
 let leaderboard = [];
+let bestGlobalStreak = 0; // Variable to hold the best global streak
+let latestStreak = 0; // Variable to hold the latest streak
 
 // Function to calculate the answer based on the operator
 function calculate(num1, num2, op) {
@@ -42,8 +44,14 @@ function getQuestion() {
 }
 
 // Home Page
+// Because I could not get the data about the streaks
+// to show up on the page, I created a global variable 
+// and added the numbers through them
 app.get('/', (req, res) => {
-    res.render('index', { streak: req.session.streak || 'No streak recorded.' });
+    res.render('index', {
+        best: bestGlobalStreak,
+        latest: latestStreak
+    });
 });
 
 // Quiz Page
@@ -58,6 +66,14 @@ app.get('/completion', (req, res) => {
     const total = parseInt(req.query.total) || 0; // Get total correct from query
     const best = parseInt(req.query.best) || 0; // Get best result from query
     const isBest = total > best;
+
+    // Update the global best streak if the current total is higher
+    if (total > bestGlobalStreak) {
+        bestGlobalStreak = total;
+    }
+
+    // Update the latest streak
+    latestStreak = total;
 
     res.render('completion', { total, best, isBest });
 });
